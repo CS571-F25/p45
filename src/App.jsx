@@ -1,34 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Link, Navigate, Route, Routes } from 'react-router'
 import './App.css'
+import About from './components/About.jsx'
+import Home from './components/Home.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="min-vh-100 d-flex flex-column">
+      <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">
+            Premed Compass
+          </Link>
+          <div className="navbar-nav">
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
+            <Link className="nav-link" to="/about">
+              About
+            </Link>
+          </div>
+        </div>
+      </nav>
+      <main className="flex-grow-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+      <footer className="bg-light py-3 text-center border-top">
+        <small className="text-muted">
+          Draft content for the initial publish—more detailed features and data coming soon.
+        </small>
+      </footer>
+    </div>
   )
 }
 
