@@ -66,7 +66,7 @@ function App() {
       </main>
       <footer className="bg-light py-3 text-center border-top">
         <small className="text-muted">
-          Draft content for the initial publish—more detailed features and data coming soon.
+          Under construction: more real data, filters, and comparison tools coming soon.
         </small>
       </footer>
     </div>
