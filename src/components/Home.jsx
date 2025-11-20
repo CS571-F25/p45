@@ -1,3 +1,24 @@
+import { Link } from 'react-router'
+import StatHighlight from './StatHighlight.jsx'
+
+const roadmap = [
+  {
+    label: 'Dataset',
+    value: '150+ schools',
+    detail: 'Target coverage across every MD and DO program with rolling updates.',
+  },
+  {
+    label: 'Filters',
+    value: 'Location, GPA, Tuition',
+    detail: 'Core filters mocked up now, interactive controls shipping next.',
+  },
+  {
+    label: 'Favorites',
+    value: 'Side-by-side view',
+    detail: 'Let users export shortlists into comparison worksheets.',
+  },
+]
+
 export default function Home() {
   return (
     <div className="container py-4">
@@ -16,6 +37,19 @@ export default function Home() {
         For now this is just the first deploy so I can get the structure in place. Real data, filtering logic, and
         the detailed school pages will follow as the project grows.
       </p>
+      <div className="d-flex flex-wrap gap-3 mt-3">
+        <Link className="btn btn-primary" to="/explore">
+          Browse the sample catalog
+        </Link>
+        <Link className="btn btn-outline-secondary" to="/favorites">
+          View saved schools
+        </Link>
+      </div>
+      <div className="row mt-4">
+        {roadmap.map((item) => (
+          <StatHighlight key={item.label} {...item} />
+        ))}
+      </div>
     </div>
   )
 }
