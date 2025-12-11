@@ -1,37 +1,51 @@
+import { Link } from 'react-router'
+import ComparisonTable from './ComparisonTable.jsx'
+import FavoriteItem from './FavoriteItem.jsx'
+
 export default function Favorites({ favorites, onRemoveFavorite }) {
   return (
     <div className="container py-4">
-      <h1 className="mb-3">Favorites</h1>
-      <p className="text-muted">
-        Eventually this page will let users persist their list and run side-by-side comparisons. For the check-in it
-        reflects the current session so I can test the workflows.
-      </p>
+      <div className="mb-4">
+        <h1 className="mb-2">Your Favorites</h1>
+        <p className="text-muted mb-0">
+          Keep track of schools you&apos;re interested in and compare them side by side.
+        </p>
+      </div>
+
       {favorites.length === 0 ? (
-        <div className="alert alert-info" role="alert">
-          No schools saved yet. Head to the Explore tab to add a few candidates.
+        <div className="text-center py-5">
+          <div className="display-1 mb-3" role="img" aria-label="Empty favorites">
+            📋
+          </div>
+          <h2 className="h4">No schools saved yet</h2>
+          <p className="text-muted mb-4">
+            Start exploring and add schools to your favorites to see them here.
+          </p>
+          <Link to="/explore" className="btn btn-primary">
+            Explore Schools
+          </Link>
         </div>
       ) : (
-        <div className="list-group shadow-sm">
-          {favorites.map((school) => (
-            <div key={school.name} className="list-group-item list-group-item-action">
-              <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <div>
-                  <h5 className="mb-1">{school.name}</h5>
-                  <small className="text-muted">
-                    {school.location} • Avg GPA {school.gpa} • Avg MCAT {school.mcat}
-                  </small>
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-danger"
-                  onClick={() => onRemoveFavorite(school.name)}
-                >
-                  Remove
-                </button>
-              </div>
+        <>
+          <section className="mb-5">
+            <h2 className="h4 mb-3">
+              Saved Schools ({favorites.length})
+            </h2>
+            <div className="list-group shadow-sm">
+              {favorites.map((school) => (
+                <FavoriteItem
+                  key={school.name}
+                  school={school}
+                  onRemove={onRemoveFavorite}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </section>
+
+          <section>
+            <ComparisonTable schools={favorites} />
+          </section>
+        </>
       )}
     </div>
   )

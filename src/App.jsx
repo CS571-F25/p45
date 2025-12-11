@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { Container, Nav, Navbar } from 'react-bootstrap'
-import { Link, Navigate, Route, Routes } from 'react-router'
+import { Navigate, Route, Routes } from 'react-router'
 import './App.css'
 import About from './components/About.jsx'
 import Explore from './components/Explore.jsx'
 import Favorites from './components/Favorites.jsx'
+import Footer from './components/Footer.jsx'
 import Home from './components/Home.jsx'
+import Navbar from './components/Navbar.jsx'
 
 function App() {
   const [favorites, setFavorites] = useState([])
@@ -25,30 +26,7 @@ function App() {
 
   return (
     <div className="min-vh-100 d-flex flex-column">
-      <Navbar bg="dark" variant="dark" expand="md" sticky="top">
-        <Container>
-          <Navbar.Brand as={Link} to="/">
-            Premed Compass
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="primary-nav" />
-          <Navbar.Collapse id="primary-nav">
-            <Nav className="me-auto">
-              <Nav.Link as={Link} to="/">
-                Home
-              </Nav.Link>
-              <Nav.Link as={Link} to="/explore">
-                Explore
-              </Nav.Link>
-              <Nav.Link as={Link} to="/favorites">
-                Favorites
-              </Nav.Link>
-              <Nav.Link as={Link} to="/about">
-                About
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <Navbar />
       <main className="flex-grow-1">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -64,11 +42,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      <footer className="bg-light py-3 text-center border-top">
-        <small className="text-muted">
-          Under construction: more real data, filters, and comparison tools coming soon.
-        </small>
-      </footer>
+      <Footer />
     </div>
   )
 }

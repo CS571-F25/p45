@@ -1,22 +1,31 @@
 export default function SchoolCard({ school, onToggleFavorite, isSaved }) {
+  const tuitionDisplay = school.tuition === 0 ? 'Free*' : `$${school.tuition}k`
+  
   return (
     <div className="col-12 col-md-6 col-xl-4 mb-4">
       <div className="card h-100 shadow-sm">
         <div className="card-body">
-          <div className="d-flex justify-content-between align-items-center mb-2">
-            <div>
-              <h5 className="card-title mb-0">{school.name}</h5>
-              <small className="text-muted">{school.location}</small>
+          <div className="d-flex justify-content-between align-items-start mb-2">
+            <div className="flex-grow-1 me-2">
+              <h2 className="h5 card-title mb-1">{school.name}</h2>
+              <p className="text-muted small mb-0">{school.location}</p>
             </div>
-            <span className="badge text-bg-primary">{school.type}</span>
+            <div className="d-flex flex-column align-items-end gap-1">
+              <span className={`badge ${school.type === 'MD' ? 'bg-primary' : 'bg-success'}`}>
+                {school.type}
+              </span>
+              <span className={`badge ${school.isPublic ? 'bg-info' : 'bg-secondary'}`}>
+                {school.isPublic ? 'Public' : 'Private'}
+              </span>
+            </div>
           </div>
           <dl className="row mb-0 small">
             <dt className="col-6">Avg GPA</dt>
-            <dd className="col-6 mb-1 text-end">{school.gpa}</dd>
+            <dd className="col-6 mb-1 text-end">{school.gpa.toFixed(2)}</dd>
             <dt className="col-6">Avg MCAT</dt>
             <dd className="col-6 mb-1 text-end">{school.mcat}</dd>
-            <dt className="col-6">Tuition</dt>
-            <dd className="col-6 mb-1 text-end">${school.tuition}k</dd>
+            <dt className="col-6">Tuition (annual)</dt>
+            <dd className="col-6 mb-1 text-end">{tuitionDisplay}</dd>
             <dt className="col-6">Match Rate</dt>
             <dd className="col-6 text-end">{school.match}%</dd>
           </dl>
@@ -26,6 +35,7 @@ export default function SchoolCard({ school, onToggleFavorite, isSaved }) {
             type="button"
             className={`btn w-100 ${isSaved ? 'btn-success' : 'btn-outline-primary'}`}
             onClick={() => onToggleFavorite?.(school)}
+            aria-label={isSaved ? `Remove ${school.name} from favorites` : `Save ${school.name} to favorites`}
           >
             {isSaved ? 'Remove from Favorites' : 'Save to Favorites'}
           </button>
