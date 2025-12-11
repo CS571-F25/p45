@@ -1,3 +1,4 @@
+import { FiArrowRight, FiBookOpen } from 'react-icons/fi'
 import { Link } from 'react-router'
 
 export default function HeroBanner() {
@@ -5,7 +6,7 @@ export default function HeroBanner() {
     <section className="hero-banner bg-primary text-white py-5 mb-4">
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-lg-8">
+          <div className="col-lg-8 col-xl-7">
             <h1 className="display-4 fw-bold mb-3">
               Find Your Perfect Medical School
             </h1>
@@ -14,17 +15,14 @@ export default function HeroBanner() {
               your personalized school list. All the data you need in one place.
             </p>
             <div className="d-flex flex-wrap gap-3">
-              <Link className="btn btn-light btn-lg" to="/explore">
+              <Link className="btn btn-light btn-lg d-inline-flex align-items-center gap-2" to="/explore">
                 Start Exploring
+                <FiArrowRight aria-hidden="true" />
               </Link>
-              <Link className="btn btn-outline-light btn-lg" to="/about">
+              <Link className="btn btn-outline-light btn-lg d-inline-flex align-items-center gap-2" to="/about">
+                <FiBookOpen aria-hidden="true" />
                 Learn More
               </Link>
-            </div>
-          </div>
-          <div className="col-lg-4 d-none d-lg-block text-center">
-            <div className="hero-icon display-1" role="img" aria-label="Medical symbol">
-              🩺
             </div>
           </div>
         </div>

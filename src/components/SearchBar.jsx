@@ -1,7 +1,8 @@
+import { FiSearch, FiX } from 'react-icons/fi'
+
 export default function SearchBar({ searchQuery, onSearchChange }) {
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Search is handled via onChange, form submission just prevents page reload
   }
 
   return (
@@ -11,7 +12,7 @@ export default function SearchBar({ searchQuery, onSearchChange }) {
           Search schools by name
         </label>
         <span className="input-group-text" aria-hidden="true">
-          🔍
+          <FiSearch size={16} />
         </span>
         <input
           type="search"
@@ -29,7 +30,7 @@ export default function SearchBar({ searchQuery, onSearchChange }) {
             onClick={() => onSearchChange('')}
             aria-label="Clear search"
           >
-            ✕
+            <FiX size={16} aria-hidden="true" />
           </button>
         )}
       </div>

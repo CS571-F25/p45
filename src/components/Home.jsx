@@ -1,3 +1,4 @@
+import { FiBarChart2, FiHeart, FiSearch, FiTarget } from 'react-icons/fi'
 import HeroBanner from './HeroBanner.jsx'
 import StatHighlight from './StatHighlight.jsx'
 
@@ -21,22 +22,22 @@ const roadmap = [
 
 const features = [
   {
-    icon: '🔍',
+    icon: FiSearch,
     title: 'Smart Search',
     description: 'Find schools by name, location, or program type instantly.',
   },
   {
-    icon: '📊',
+    icon: FiBarChart2,
     title: 'Compare Schools',
     description: 'View side-by-side comparisons of GPA, MCAT, tuition, and match rates.',
   },
   {
-    icon: '❤️',
+    icon: FiHeart,
     title: 'Save Favorites',
     description: 'Build your personalized list of target schools.',
   },
   {
-    icon: '🎯',
+    icon: FiTarget,
     title: 'Match Insights',
     description: 'See residency match rates to evaluate program outcomes.',
   },
@@ -50,19 +51,22 @@ export default function Home() {
         <section className="mb-5">
           <h2 className="h3 mb-4">What We Offer</h2>
           <div className="row g-4">
-            {features.map((feature) => (
-              <div key={feature.title} className="col-sm-6 col-lg-3">
-                <div className="card h-100 border-0 shadow-sm">
-                  <div className="card-body text-center">
-                    <div className="display-4 mb-3" role="img" aria-label={feature.title}>
-                      {feature.icon}
+            {features.map((feature) => {
+              const IconComponent = feature.icon
+              return (
+                <div key={feature.title} className="col-sm-6 col-lg-3">
+                  <div className="card h-100 border-0 shadow-sm">
+                    <div className="card-body text-center">
+                      <div className="feature-icon mb-3">
+                        <IconComponent size={48} className="text-primary" aria-hidden="true" />
+                      </div>
+                      <h3 className="h5 card-title">{feature.title}</h3>
+                      <p className="card-text text-muted small">{feature.description}</p>
                     </div>
-                    <h3 className="h5 card-title">{feature.title}</h3>
-                    <p className="card-text text-muted small">{feature.description}</p>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </section>
 

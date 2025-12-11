@@ -1,4 +1,5 @@
 import { Container } from 'react-bootstrap'
+import { FiCompass } from 'react-icons/fi'
 import { Link } from 'react-router'
 
 export default function Footer() {
@@ -9,8 +10,9 @@ export default function Footer() {
       <Container>
         <div className="row">
           <div className="col-md-6 mb-3 mb-md-0">
-            <h2 className="h5 mb-2">
-              <span role="img" aria-label="compass">🧭</span> Premed Compass
+            <h2 className="h5 mb-2 d-flex align-items-center gap-2">
+              <FiCompass size={18} aria-hidden="true" />
+              <span>Premed Compass</span>
             </h2>
             <p className="text-secondary mb-0 small">
               Helping pre-med students navigate their medical school journey.
@@ -35,7 +37,7 @@ export default function Footer() {
         </div>
         <hr className="my-3 border-secondary" />
         <div className="text-center text-secondary small">
-          <p className="mb-0">© {currentYear} Premed Compass. Built for CS571.</p>
+          <p className="mb-0">&copy; {currentYear} Premed Compass. Built for CS571.</p>
         </div>
       </Container>
     </footer>

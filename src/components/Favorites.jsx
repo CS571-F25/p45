@@ -1,3 +1,4 @@
+import { FiClipboard } from 'react-icons/fi'
 import { Link } from 'react-router'
 import ComparisonTable from './ComparisonTable.jsx'
 import FavoriteItem from './FavoriteItem.jsx'
@@ -14,8 +15,8 @@ export default function Favorites({ favorites, onRemoveFavorite }) {
 
       {favorites.length === 0 ? (
         <div className="text-center py-5">
-          <div className="display-1 mb-3" role="img" aria-label="Empty favorites">
-            📋
+          <div className="mb-3 text-muted">
+            <FiClipboard size={64} aria-hidden="true" />
           </div>
           <h2 className="h4">No schools saved yet</h2>
           <p className="text-muted mb-4">

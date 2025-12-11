@@ -1,4 +1,5 @@
 import { Container, Nav, Navbar as BSNavbar } from 'react-bootstrap'
+import { FiCompass } from 'react-icons/fi'
 import { Link, useLocation } from 'react-router'
 
 export default function Navbar() {
@@ -11,8 +12,9 @@ export default function Navbar() {
   return (
     <BSNavbar bg="dark" variant="dark" expand="md" sticky="top">
       <Container>
-        <BSNavbar.Brand as={Link} to="/">
-          <span role="img" aria-label="compass">🧭</span> Premed Compass
+        <BSNavbar.Brand as={Link} to="/" className="d-flex align-items-center gap-2">
+          <FiCompass size={20} aria-hidden="true" />
+          <span>Premed Compass</span>
         </BSNavbar.Brand>
         <BSNavbar.Toggle aria-controls="primary-nav" aria-label="Toggle navigation" />
         <BSNavbar.Collapse id="primary-nav">
