@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import './App.css'
 import About from './components/About.jsx'
@@ -8,8 +8,23 @@ import Footer from './components/Footer.jsx'
 import Home from './components/Home.jsx'
 import Navbar from './components/Navbar.jsx'
 
+const FAVORITES_KEY = 'premed-compass-favorites'
+
 function App() {
-  const [favorites, setFavorites] = useState([])
+  const [favorites, setFavorites] = useState(() => {
+    // Initialize from localStorage
+    try {
+      const saved = localStorage.getItem(FAVORITES_KEY)
+      return saved ? JSON.parse(saved) : []
+    } catch {
+      return []
+    }
+  })
+
+  // Persist favorites to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites))
+  }, [favorites])
 
   const handleToggleFavorite = (school) => {
     setFavorites((prev) => {
