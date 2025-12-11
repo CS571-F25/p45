@@ -44,7 +44,7 @@ export default function FilterBar({
               <button
                 key={type}
                 type="button"
-                className={`btn btn-sm btn-${publicFilter === type ? 'secondary' : 'outline-secondary'}`}
+                className={`btn btn-sm btn-${publicFilter === type ? 'info' : 'outline-info'}`}
                 onClick={() => onPublicChange(type)}
                 aria-pressed={publicFilter === type}
               >
@@ -77,7 +77,7 @@ export default function FilterBar({
       </div>
 
       {/* Row 2: Range Sliders for Tuition, GPA, MCAT */}
-      <div className="row g-3">
+      <div className="row g-4 mt-1">
         {/* Tuition Range */}
         <div className="col-12 col-md-4">
           <div className="slider-group">
