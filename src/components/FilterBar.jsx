@@ -44,11 +44,7 @@ export default function FilterBar({
               <button
                 key={type}
                 type="button"
-                className={`btn btn-sm ${
-                  publicFilter === type 
-                    ? type === 'PUBLIC' ? 'btn-info' : type === 'PRIVATE' ? 'btn-dark' : 'btn-primary'
-                    : type === 'PUBLIC' ? 'btn-outline-info' : type === 'PRIVATE' ? 'btn-outline-dark' : 'btn-outline-primary'
-                }`}
+                className={`btn btn-sm ${publicFilter === type ? 'btn-primary' : 'btn-outline-primary'}`}
                 onClick={() => onPublicChange(type)}
                 aria-pressed={publicFilter === type}
               >
@@ -99,6 +95,8 @@ export default function FilterBar({
               value={tuitionRange}
               onChange={onTuitionChange}
               allowCross={false}
+              keyboard
+              ariaLabelForHandle={['Minimum tuition', 'Maximum tuition']}
               styles={{
                 track: { backgroundColor: '#0d6efd', height: 6 },
                 handle: { 
@@ -133,6 +131,8 @@ export default function FilterBar({
               value={gpaRange}
               onChange={onGpaChange}
               allowCross={false}
+              keyboard
+              ariaLabelForHandle={['Minimum GPA', 'Maximum GPA']}
               styles={{
                 track: { backgroundColor: '#198754', height: 6 },
                 handle: { 
@@ -167,6 +167,8 @@ export default function FilterBar({
               value={mcatRange}
               onChange={onMcatChange}
               allowCross={false}
+              keyboard
+              ariaLabelForHandle={['Minimum MCAT', 'Maximum MCAT']}
               styles={{
                 track: { backgroundColor: '#6f42c1', height: 6 },
                 handle: { 

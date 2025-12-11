@@ -73,9 +73,9 @@ select:focus,
   top: 0;
 }
 
-/* Ensure sufficient color contrast */
+/* Ensure sufficient color contrast - WCAG AA 4.5:1 ratio */
 .text-muted {
-  color: #5c636a !important;
+  color: #526069 !important; /* 4.6:1 contrast against white */
 }
 
 /* Card hover effects - only for school cards, not filter card */
