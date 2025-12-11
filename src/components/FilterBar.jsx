@@ -1,3 +1,6 @@
+import Slider from 'rc-slider'
+import 'rc-slider/assets/index.css'
+
 export default function FilterBar({ 
   typeFilter, 
   onTypeChange, 
@@ -6,17 +9,17 @@ export default function FilterBar({
   locations,
   publicFilter,
   onPublicChange,
-  tuitionMax,
+  tuitionRange,
   onTuitionChange,
-  gpaMin,
+  gpaRange,
   onGpaChange,
-  mcatMin,
+  mcatRange,
   onMcatChange
 }) {
   return (
     <div className="filter-bar">
       {/* Row 1: Program Type and School Type toggles */}
-      <div className="d-flex flex-wrap gap-2 mb-2">
+      <div className="d-flex flex-wrap gap-2 mb-3">
         <fieldset className="d-flex align-items-center gap-2">
           <legend className="visually-hidden">Program Type</legend>
           <div className="btn-group" role="group" aria-label="Filter by program type">
@@ -50,10 +53,7 @@ export default function FilterBar({
             ))}
           </div>
         </fieldset>
-      </div>
 
-      {/* Row 2: Dropdowns for State, Tuition, GPA, MCAT */}
-      <div className="d-flex flex-wrap gap-2 align-items-center">
         <div className="d-flex align-items-center gap-1">
           <label htmlFor="location-filter" className="form-label mb-0 text-nowrap small">
             State:
@@ -74,67 +74,110 @@ export default function FilterBar({
             ))}
           </select>
         </div>
+      </div>
 
-        <div className="d-flex align-items-center gap-1">
-          <label htmlFor="tuition-filter" className="form-label mb-0 text-nowrap small">
-            Tuition:
-          </label>
-          <select
-            id="tuition-filter"
-            className="form-select form-select-sm"
-            style={{ width: 'auto', minWidth: '100px' }}
-            value={tuitionMax}
-            onChange={(e) => onTuitionChange(e.target.value)}
-            aria-label="Filter by maximum tuition"
-          >
-            <option value="ALL">Any</option>
-            <option value="30">Under $30k</option>
-            <option value="40">Under $40k</option>
-            <option value="50">Under $50k</option>
-            <option value="60">Under $60k</option>
-            <option value="70">Under $70k</option>
-          </select>
+      {/* Row 2: Range Sliders for Tuition, GPA, MCAT */}
+      <div className="row g-3">
+        {/* Tuition Range */}
+        <div className="col-12 col-md-4">
+          <div className="slider-group">
+            <div className="d-flex justify-content-between align-items-center mb-2">
+              <label className="form-label mb-0 small fw-medium">Tuition</label>
+              <span className="badge bg-light text-dark">
+                ${tuitionRange[0]}k – {tuitionRange[1] >= 100 ? '$100k+' : `$${tuitionRange[1]}k`}
+              </span>
+            </div>
+            <Slider
+              range
+              min={0}
+              max={100}
+              step={5}
+              value={tuitionRange}
+              onChange={onTuitionChange}
+              allowCross={false}
+              styles={{
+                track: { backgroundColor: '#0d6efd', height: 6 },
+                handle: { 
+                  borderColor: '#0d6efd', 
+                  backgroundColor: '#fff',
+                  opacity: 1,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                  width: 18,
+                  height: 18,
+                  marginTop: -6
+                },
+                rail: { backgroundColor: '#e9ecef', height: 6 }
+              }}
+            />
+          </div>
         </div>
 
-        <div className="d-flex align-items-center gap-1">
-          <label htmlFor="gpa-filter" className="form-label mb-0 text-nowrap small">
-            GPA:
-          </label>
-          <select
-            id="gpa-filter"
-            className="form-select form-select-sm"
-            style={{ width: 'auto', minWidth: '80px' }}
-            value={gpaMin}
-            onChange={(e) => onGpaChange(e.target.value)}
-            aria-label="Filter by minimum GPA"
-          >
-            <option value="ALL">Any</option>
-            <option value="3.5">3.5+</option>
-            <option value="3.6">3.6+</option>
-            <option value="3.7">3.7+</option>
-            <option value="3.8">3.8+</option>
-          </select>
+        {/* GPA Range */}
+        <div className="col-12 col-md-4">
+          <div className="slider-group">
+            <div className="d-flex justify-content-between align-items-center mb-2">
+              <label className="form-label mb-0 small fw-medium">GPA</label>
+              <span className="badge bg-light text-dark">
+                {gpaRange[0].toFixed(1)} – {gpaRange[1].toFixed(1)}
+              </span>
+            </div>
+            <Slider
+              range
+              min={3.0}
+              max={4.0}
+              step={0.05}
+              value={gpaRange}
+              onChange={onGpaChange}
+              allowCross={false}
+              styles={{
+                track: { backgroundColor: '#198754', height: 6 },
+                handle: { 
+                  borderColor: '#198754', 
+                  backgroundColor: '#fff',
+                  opacity: 1,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                  width: 18,
+                  height: 18,
+                  marginTop: -6
+                },
+                rail: { backgroundColor: '#e9ecef', height: 6 }
+              }}
+            />
+          </div>
         </div>
 
-        <div className="d-flex align-items-center gap-1">
-          <label htmlFor="mcat-filter" className="form-label mb-0 text-nowrap small">
-            MCAT:
-          </label>
-          <select
-            id="mcat-filter"
-            className="form-select form-select-sm"
-            style={{ width: 'auto', minWidth: '80px' }}
-            value={mcatMin}
-            onChange={(e) => onMcatChange(e.target.value)}
-            aria-label="Filter by minimum MCAT"
-          >
-            <option value="ALL">Any</option>
-            <option value="500">500+</option>
-            <option value="505">505+</option>
-            <option value="510">510+</option>
-            <option value="515">515+</option>
-            <option value="520">520+</option>
-          </select>
+        {/* MCAT Range */}
+        <div className="col-12 col-md-4">
+          <div className="slider-group">
+            <div className="d-flex justify-content-between align-items-center mb-2">
+              <label className="form-label mb-0 small fw-medium">MCAT</label>
+              <span className="badge bg-light text-dark">
+                {mcatRange[0]} – {mcatRange[1]}
+              </span>
+            </div>
+            <Slider
+              range
+              min={490}
+              max={528}
+              step={1}
+              value={mcatRange}
+              onChange={onMcatChange}
+              allowCross={false}
+              styles={{
+                track: { backgroundColor: '#6f42c1', height: 6 },
+                handle: { 
+                  borderColor: '#6f42c1', 
+                  backgroundColor: '#fff',
+                  opacity: 1,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                  width: 18,
+                  height: 18,
+                  marginTop: -6
+                },
+                rail: { backgroundColor: '#e9ecef', height: 6 }
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

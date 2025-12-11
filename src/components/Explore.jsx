@@ -2313,9 +2313,9 @@ export default function Explore({ favorites, onToggleFavorite }) {
   const [typeFilter, setTypeFilter] = useState('ALL')
   const [locationFilter, setLocationFilter] = useState('ALL')
   const [publicFilter, setPublicFilter] = useState('ALL')
-  const [tuitionMax, setTuitionMax] = useState('ALL')
-  const [gpaMin, setGpaMin] = useState('ALL')
-  const [mcatMin, setMcatMin] = useState('ALL')
+  const [tuitionRange, setTuitionRange] = useState([0, 100])
+  const [gpaRange, setGpaRange] = useState([3.0, 4.0])
+  const [mcatRange, setMcatRange] = useState([490, 528])
   const [sortKey, setSortKey] = useState('name')
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -2343,23 +2343,20 @@ export default function Explore({ favorites, onToggleFavorite }) {
       filtered = filtered.filter((school) => school.state === locationFilter)
     }
 
-    // Tuition filter
-    if (tuitionMax !== 'ALL') {
-      const maxTuition = parseInt(tuitionMax, 10)
-      filtered = filtered.filter((school) => school.tuition <= maxTuition)
-    }
+    // Tuition range filter
+    filtered = filtered.filter((school) => 
+      school.tuition >= tuitionRange[0] && school.tuition <= tuitionRange[1]
+    )
 
-    // GPA filter
-    if (gpaMin !== 'ALL') {
-      const minGpa = parseFloat(gpaMin)
-      filtered = filtered.filter((school) => school.gpa >= minGpa)
-    }
+    // GPA range filter
+    filtered = filtered.filter((school) => 
+      school.gpa >= gpaRange[0] && school.gpa <= gpaRange[1]
+    )
 
-    // MCAT filter
-    if (mcatMin !== 'ALL') {
-      const minMcat = parseInt(mcatMin, 10)
-      filtered = filtered.filter((school) => school.mcat >= minMcat)
-    }
+    // MCAT range filter
+    filtered = filtered.filter((school) => 
+      school.mcat >= mcatRange[0] && school.mcat <= mcatRange[1]
+    )
 
     // Search filter
     if (searchQuery.trim()) {
@@ -2372,7 +2369,7 @@ export default function Explore({ favorites, onToggleFavorite }) {
     }
 
     return [...filtered].sort(sorters[sortKey])
-  }, [typeFilter, locationFilter, publicFilter, tuitionMax, gpaMin, mcatMin, sortKey, searchQuery])
+  }, [typeFilter, locationFilter, publicFilter, tuitionRange, gpaRange, mcatRange, sortKey, searchQuery])
 
   const resultsCount = schoolsToShow.length
   const totalCount = medicalSchools.length
@@ -2387,7 +2384,7 @@ export default function Explore({ favorites, onToggleFavorite }) {
         </p>
       </div>
 
-      <div className="card shadow-sm mb-4">
+      <div className="card filter-card shadow-sm mb-4">
         <div className="card-body">
           <div className="row g-3">
             <div className="col-12 col-md-6 col-lg-4">
@@ -2406,12 +2403,12 @@ export default function Explore({ favorites, onToggleFavorite }) {
             locations={locations}
             publicFilter={publicFilter}
             onPublicChange={setPublicFilter}
-            tuitionMax={tuitionMax}
-            onTuitionChange={setTuitionMax}
-            gpaMin={gpaMin}
-            onGpaChange={setGpaMin}
-            mcatMin={mcatMin}
-            onMcatChange={setMcatMin}
+            tuitionRange={tuitionRange}
+            onTuitionChange={setTuitionRange}
+            gpaRange={gpaRange}
+            onGpaChange={setGpaRange}
+            mcatRange={mcatRange}
+            onMcatChange={setMcatRange}
           />
         </div>
       </div>
