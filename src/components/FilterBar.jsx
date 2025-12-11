@@ -44,7 +44,11 @@ export default function FilterBar({
               <button
                 key={type}
                 type="button"
-                className={`btn btn-sm btn-${publicFilter === type ? 'info' : 'outline-info'}`}
+                className={`btn btn-sm ${
+                  publicFilter === type 
+                    ? type === 'PUBLIC' ? 'btn-info' : type === 'PRIVATE' ? 'btn-dark' : 'btn-primary'
+                    : type === 'PUBLIC' ? 'btn-outline-info' : type === 'PRIVATE' ? 'btn-outline-dark' : 'btn-outline-primary'
+                }`}
                 onClick={() => onPublicChange(type)}
                 aria-pressed={publicFilter === type}
               >

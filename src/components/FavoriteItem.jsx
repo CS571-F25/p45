@@ -10,7 +10,7 @@ export default function FavoriteItem({ school, onRemove }) {
             <span className={`badge ${school.type === 'MD' ? 'bg-primary' : 'bg-success'}`}>
               {school.type}
             </span>
-            <span className={`badge ${school.isPublic ? 'bg-info' : 'bg-secondary'}`}>
+            <span className={`badge ${school.isPublic ? 'bg-info' : 'bg-dark'}`}>
               {school.isPublic ? 'Public' : 'Private'}
             </span>
           </div>
