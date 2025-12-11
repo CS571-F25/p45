@@ -1087,6 +1087,9 @@ export default function Explore({ favorites, onToggleFavorite }) {
   const [typeFilter, setTypeFilter] = useState('ALL')
   const [locationFilter, setLocationFilter] = useState('ALL')
   const [publicFilter, setPublicFilter] = useState('ALL')
+  const [tuitionMax, setTuitionMax] = useState('ALL')
+  const [gpaMin, setGpaMin] = useState('ALL')
+  const [mcatMin, setMcatMin] = useState('ALL')
   const [sortKey, setSortKey] = useState('name')
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -1114,6 +1117,24 @@ export default function Explore({ favorites, onToggleFavorite }) {
       filtered = filtered.filter((school) => school.state === locationFilter)
     }
 
+    // Tuition filter
+    if (tuitionMax !== 'ALL') {
+      const maxTuition = parseInt(tuitionMax, 10)
+      filtered = filtered.filter((school) => school.tuition <= maxTuition)
+    }
+
+    // GPA filter
+    if (gpaMin !== 'ALL') {
+      const minGpa = parseFloat(gpaMin)
+      filtered = filtered.filter((school) => school.gpa >= minGpa)
+    }
+
+    // MCAT filter
+    if (mcatMin !== 'ALL') {
+      const minMcat = parseInt(mcatMin, 10)
+      filtered = filtered.filter((school) => school.mcat >= minMcat)
+    }
+
     // Search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
@@ -1125,7 +1146,7 @@ export default function Explore({ favorites, onToggleFavorite }) {
     }
 
     return [...filtered].sort(sorters[sortKey])
-  }, [typeFilter, locationFilter, publicFilter, sortKey, searchQuery])
+  }, [typeFilter, locationFilter, publicFilter, tuitionMax, gpaMin, mcatMin, sortKey, searchQuery])
 
   const resultsCount = schoolsToShow.length
   const totalCount = medicalSchools.length
@@ -1142,25 +1163,30 @@ export default function Explore({ favorites, onToggleFavorite }) {
 
       <div className="card shadow-sm mb-4">
         <div className="card-body">
-          <div className="row g-3 align-items-end">
-            <div className="col-12 col-lg-4">
+          <div className="row g-3">
+            <div className="col-12 col-md-6 col-lg-4">
               <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
             </div>
-            <div className="col-12 col-lg-5">
-              <FilterBar
-                typeFilter={typeFilter}
-                onTypeChange={setTypeFilter}
-                locationFilter={locationFilter}
-                onLocationChange={setLocationFilter}
-                locations={locations}
-                publicFilter={publicFilter}
-                onPublicChange={setPublicFilter}
-              />
-            </div>
-            <div className="col-12 col-lg-3">
+            <div className="col-12 col-md-6 col-lg-3">
               <SortDropdown sortKey={sortKey} onSortChange={setSortKey} />
             </div>
           </div>
+          <hr className="my-3" />
+          <FilterBar
+            typeFilter={typeFilter}
+            onTypeChange={setTypeFilter}
+            locationFilter={locationFilter}
+            onLocationChange={setLocationFilter}
+            locations={locations}
+            publicFilter={publicFilter}
+            onPublicChange={setPublicFilter}
+            tuitionMax={tuitionMax}
+            onTuitionChange={setTuitionMax}
+            gpaMin={gpaMin}
+            onGpaChange={setGpaMin}
+            mcatMin={mcatMin}
+            onMcatChange={setMcatMin}
+          />
         </div>
       </div>
 
