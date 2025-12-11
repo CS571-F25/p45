@@ -11,33 +11,47 @@ export default function ComparisonTable({ schools }) {
     { key: 'type', label: 'Program Type' },
     { key: 'location', label: 'Location' },
     { key: 'isPublic', label: 'Public/Private', format: (val) => val ? 'Public' : 'Private' },
-    { key: 'gpa', label: 'Average GPA', format: (val) => val.toFixed(2) },
-    { key: 'mcat', label: 'Average MCAT' },
-    { key: 'tuition', label: 'Tuition (annual)', format: (val) => val === 0 ? 'Free*' : `$${val}k` },
-    { key: 'match', label: 'Match Rate', format: (val) => `${val}%` },
+    { key: 'gpa', label: 'Average GPA', format: (val) => val.toFixed(2), lowerIsBetter: true },
+    { key: 'mcat', label: 'Average MCAT', lowerIsBetter: true },
+    { key: 'tuition', label: 'Tuition (annual)', format: (val) => val === 0 ? 'Free*' : `$${val}k`, lowerIsBetter: true },
+    { key: 'match', label: 'Match Rate', format: (val) => `${val}%`, lowerIsBetter: false },
   ]
 
-  // Find best values for highlighting
-  const bestValues = {
-    gpa: Math.max(...schools.map(s => s.gpa)),
-    mcat: Math.max(...schools.map(s => s.mcat)),
-    tuition: Math.min(...schools.map(s => s.tuition)),
-    match: Math.max(...schools.map(s => s.match)),
+  // Find best and worst values for highlighting
+  const stats = {
+    gpa: { min: Math.min(...schools.map(s => s.gpa)), max: Math.max(...schools.map(s => s.gpa)) },
+    mcat: { min: Math.min(...schools.map(s => s.mcat)), max: Math.max(...schools.map(s => s.mcat)) },
+    tuition: { min: Math.min(...schools.map(s => s.tuition)), max: Math.max(...schools.map(s => s.tuition)) },
+    match: { min: Math.min(...schools.map(s => s.match)), max: Math.max(...schools.map(s => s.match)) },
   }
 
-  const isBest = (school, key) => {
-    if (key === 'gpa') return school.gpa === bestValues.gpa
-    if (key === 'mcat') return school.mcat === bestValues.mcat
-    if (key === 'tuition') return school.tuition === bestValues.tuition
-    if (key === 'match') return school.match === bestValues.match
-    return false
+  const getHighlight = (school, metric) => {
+    if (!stats[metric.key]) return ''
+    
+    const value = school[metric.key]
+    const { min, max } = stats[metric.key]
+    
+    // Don't highlight if all values are the same
+    if (min === max) return ''
+    
+    if (metric.lowerIsBetter) {
+      // Lower is better: lowest = green, highest = red
+      if (value === min) return 'table-success fw-bold'
+      if (value === max) return 'table-danger'
+    } else {
+      // Higher is better: highest = green, lowest = red
+      if (value === max) return 'table-success fw-bold'
+      if (value === min) return 'table-danger'
+    }
+    return ''
   }
 
   return (
     <div className="comparison-table">
       <h2 className="h4 mb-3">Side-by-Side Comparison</h2>
       <p className="text-muted small mb-3">
-        <span className="text-success fw-bold">Green highlighted</span> values indicate the best among your selected schools.
+        <span className="text-success fw-bold">Green</span> = most favorable for applicants, 
+        <span className="text-danger ms-2">Red</span> = most competitive/expensive
       </p>
       <div className="table-responsive">
         <table className="table table-bordered table-hover">
@@ -61,11 +75,11 @@ export default function ComparisonTable({ schools }) {
                 {schools.map((school) => {
                   const value = school[metric.key]
                   const displayValue = metric.format ? metric.format(value) : value
-                  const highlight = isBest(school, metric.key)
+                  const highlight = getHighlight(school, metric)
                   return (
                     <td 
                       key={school.name}
-                      className={highlight ? 'table-success fw-bold' : ''}
+                      className={highlight}
                     >
                       {displayValue}
                     </td>
@@ -76,9 +90,23 @@ export default function ComparisonTable({ schools }) {
           </tbody>
         </table>
       </div>
-      <p className="text-muted small mt-2">
-        * Kaiser Permanente School of Medicine offers full-tuition scholarships to all students in early cohorts.
-      </p>
+      {schools.some(s => s.tuition === 0) && (
+        <div className="text-muted small mt-2">
+          {schools.filter(s => s.tuition === 0).map(s => (
+            <p key={s.name} className="mb-1">
+              * <strong>{s.name}</strong>: {
+                s.name.includes('Uniformed Services') 
+                  ? 'Tuition-free military medical school with service commitment.'
+                  : s.name.includes('Kaiser') 
+                    ? 'Full-tuition scholarships for all students.'
+                    : s.name.includes('NYU') 
+                      ? 'Full-tuition scholarships for all students.'
+                      : 'Tuition-free program.'
+              }
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
